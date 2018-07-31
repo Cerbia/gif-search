@@ -1,0 +1,20 @@
+img {
+	height: 200px;
+	width: 200px;
+}
+.contactForm, .app, li, .contactData{
+	border: 1px solid black;
+	padding: 10px;
+	margin: 5px;
+}
+ul {
+  list-style-type: none;
+}
+.contactItem {
+	display: flex;
+	flex-direction: row;
+}
+.contactForm {
+	display: flex;
+	flex-direction: column;
+}

@@ -1,0 +1,9 @@
+img { height: 200px; width: 200px; }
+
+.contactForm, .app, li, .contactData { border: 1px solid black; padding: 10px; margin: 5px; }
+
+ul { list-style-type: none; }
+
+.contactItem { display: -ms-flexbox; display: flex; -ms-flex-direction: row; flex-direction: row; }
+
+.contactForm { display: -ms-flexbox; display: flex; -ms-flex-direction: column; flex-direction: column; }
