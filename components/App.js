@@ -16,6 +16,7 @@ var App = React.createClass({
             loading: true
         });
         this.getGif(searchingText, function(gif) {
+            console.log(gif);
             this.setState({
                 loading: false,
                 gif: gif,
@@ -24,21 +25,64 @@ var App = React.createClass({
         }.bind(this));
     },
 
+    httpGet: function(url) {
+        return new Promise(
+            
+            function(resolve, reject) {
+                const xhr = new XMLHttpRequest();
+                xhr.onload = function() {
+                    if (this.status === 200) {
+                        resolve(JSON.parse(this.response));
+                    } else {
+                        reject(new Error(this.statusText));
+                    }
+                }
+                xhr.onerror = function() {
+                    reject(new Error(`XMLHttpRequest Error: ${this.statusText}`));
+                }
+                xhr.open('GET', url);
+                xhr.send();
+            }
+        );
+
+    }, 
+/*
+    setUpGif: function() {
+        console.log(responseJSON);
+        let data = responseJSON.data;
+        let gif = {
+            url: data.fixed_width_downsampled_url,
+            sourceUrl: data.url
+        };
+        callback(gif);
+    },
+*/
     getGif: function(searchingText, callback) {
         var url = GIPHY_API_URL + '/v1/gifs/random?api_key=' + GIPHY_PUB_KEY + '&tag=' + searchingText;
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
-        xhr.onload = function() {
-            if (xhr.status === 200) {
+        //var xhr = new XMLHttpRequest();
+
+        this.httpGet(url)
+            .then((responseJSON) => {
+                let data = responseJSON.data;
+                return {
+                    url: data.fixed_width_downsampled_url,
+                    sourceUrl: data.url
+                };
+            })
+            .then(callback)
+            .catch(() => {
+                console.log('Something went wrong with the promise');
+            });
+
+        
+            /*
                 var data = JSON.parse(xhr.responseText).data;
                 var gif = {
                     url: data.fixed_width_downsampled_url,
                     sourceUrl: data.url
                 };
                 callback(gif);
-            }
-        }
-        xhr.send();
+            */
     },
 
 
